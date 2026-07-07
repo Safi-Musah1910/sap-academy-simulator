@@ -7,17 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { prisma } from "@/lib/prisma";
 import { createCompany, deleteCompany, updateCompany } from "@/server/company-actions";
+import { getCompanyCodeMaintenanceData } from "@/server/company-queries";
+
+export const dynamic = "force-dynamic";
 
 export default async function CompanyCodePage() {
-  const [companies, variants] = await Promise.all([
-    prisma.company.findMany({
-      include: { fiscalYearVariant: true },
-      orderBy: { code: "asc" },
-    }),
-    prisma.fiscalYearVariant.findMany({ orderBy: { code: "asc" } }),
-  ]);
+  const { companies, variants, isDatabaseReady } = await getCompanyCodeMaintenanceData();
 
   return (
     <AppShell activePath="/company-code">
@@ -32,6 +28,12 @@ export default async function CompanyCodePage() {
           </div>
           <p className="text-sm font-medium text-slate-500">{companies.length} records</p>
         </div>
+
+        {!isDatabaseReady ? (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            The database is not initialized yet. Deploy migrations and seed data, then refresh this page.
+          </div>
+        ) : null}
 
         <Card>
           <CardHeader>
@@ -52,6 +54,7 @@ export default async function CompanyCodePage() {
                   name="fiscalYearVariantId"
                   className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-950 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 >
+                  <option value="">None</option>
                   {variants.map((variant) => (
                     <option key={variant.id} value={variant.id}>
                       {variant.code}
@@ -153,6 +156,13 @@ export default async function CompanyCodePage() {
                       </TableCell>
                     </TableRow>
                   ))}
+                  {companies.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={8} className="h-24 text-center text-slate-500">
+                        No company codes are available yet.
+                      </TableCell>
+                    </TableRow>
+                  ) : null}
                 </TableBody>
               </Table>
             </div>

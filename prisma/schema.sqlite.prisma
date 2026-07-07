@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -16,39 +16,39 @@ model Currency {
 }
 
 model Company {
-  id                String         @id @default(cuid())
-  code              String         @unique
-  name              String
-  country           String
-  currency          String
-  currencyMaster    Currency @relation(fields: [currency], references: [code])
-  city              String
-  status            String         @default("Active")
-  fiscalYearVariant FiscalYearVariant? @relation(fields: [fiscalYearVariantId], references: [id])
+  id                  String             @id @default(cuid())
+  code                String             @unique
+  name                String
+  country             String
+  currency            String
+  currencyMaster      Currency           @relation(fields: [currency], references: [code])
+  city                String
+  status              String             @default("Active")
+  fiscalYearVariant   FiscalYearVariant? @relation(fields: [fiscalYearVariantId], references: [id])
   fiscalYearVariantId String?
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  journalEntries    JournalEntry[]
-  customers         Customer[]
-  vendors           Vendor[]
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  journalEntries      JournalEntry[]
+  customers           Customer[]
+  vendors             Vendor[]
 }
 
 model FiscalYearVariant {
-  id          String    @id @default(cuid())
-  code        String    @unique
-  name        String
-  periods     Int
-  specialPeriods Int    @default(4)
-  yearDependent Boolean @default(false)
-  companies   Company[]
+  id             String    @id @default(cuid())
+  code           String    @unique
+  name           String
+  periods        Int
+  specialPeriods Int       @default(4)
+  yearDependent  Boolean   @default(false)
+  companies      Company[]
 }
 
 model ChartOfAccounts {
-  id          String      @id @default(cuid())
-  code        String      @unique
-  name        String
-  language    String      @default("EN")
-  glAccounts  GLAccount[]
+  id         String      @id @default(cuid())
+  code       String      @unique
+  name       String
+  language   String      @default("EN")
+  glAccounts GLAccount[]
 }
 
 model GLAccount {
@@ -87,16 +87,16 @@ model Vendor {
 }
 
 model JournalEntry {
-  id          String        @id @default(cuid())
-  documentNo  String        @unique
-  postingDate DateTime
+  id           String        @id @default(cuid())
+  documentNo   String        @unique
+  postingDate  DateTime
   documentDate DateTime
-  reference   String?
-  headerText  String
-  company     Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId   String
-  lines       JournalLine[]
-  createdAt   DateTime      @default(now())
+  reference    String?
+  headerText   String
+  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId    String
+  lines        JournalLine[]
+  createdAt    DateTime      @default(now())
 }
 
 model JournalLine {
