@@ -61,6 +61,7 @@ pnpm build
 pnpm prisma:generate
 pnpm prisma:generate:prod
 pnpm prisma:deploy
+pnpm prisma:sync:prod
 pnpm db:seed
 pnpm db:seed:prod
 ```
@@ -75,10 +76,14 @@ pnpm db:seed:prod
 
 ```bash
 prisma generate --schema=prisma/schema.prisma
-prisma migrate deploy --schema=prisma/schema.prisma
+prisma db push --schema=prisma/schema.prisma --skip-generate --accept-data-loss
 prisma db seed --schema=prisma/schema.prisma
 next build
 ```
+
+For this training simulator, Vercel uses `prisma db push` during build to avoid Postgres advisory-lock timeouts from concurrent `prisma migrate deploy` runs on Neon/Vercel Postgres. The seed is idempotent and runs after schema sync in the same sequential build process.
+
+Use `pnpm prisma:deploy` only for a controlled production migration workflow where one migration process is guaranteed to run at a time.
 
 The production Prisma schema is `prisma/schema.prisma` and uses Postgres. The local schema is `prisma/schema.sqlite.prisma` and uses SQLite.
 
