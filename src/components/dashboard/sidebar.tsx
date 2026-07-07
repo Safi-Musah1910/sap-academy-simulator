@@ -10,6 +10,7 @@ import {
   Landmark,
   LayoutDashboard,
   MonitorCog,
+  PanelsTopLeft,
   ReceiptText,
   ScrollText,
 } from "lucide-react";
@@ -19,6 +20,7 @@ import { cn } from "@/lib/utils";
 const items = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard, active: true },
   { label: "FICO Academy", href: "/fico-academy", icon: GraduationCap },
+  { label: "IMG Guide", href: "/implementation-guide", icon: PanelsTopLeft },
   { label: "Company Code", href: "/company-code", icon: Building2 },
   { label: "Fiscal Year Variants", href: "#", icon: CalendarDays },
   { label: "Chart of Accounts", href: "#", icon: FileSpreadsheet },
