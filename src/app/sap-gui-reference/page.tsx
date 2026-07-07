@@ -29,9 +29,9 @@ export default function SapGuiReferencePage() {
                 SAP GUI Reference Mode
               </h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-                Learn how a classic enterprise system selector is organized before practicing
-                configuration tasks in the simulator. This page recreates the concept with original
-                web UI components and training data.
+                Learn how a classic enterprise system selector is organized before practicing FICO
+                configuration and posting tasks. This page recreates the concept with original web
+                UI components and training data.
               </p>
             </div>
             <Button type="button">

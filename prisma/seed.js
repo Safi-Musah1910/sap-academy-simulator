@@ -227,6 +227,365 @@ async function seedJournalEntries(companies, accounts) {
   });
 }
 
+async function seedLearningPlatform() {
+  const course = await prisma.course.upsert({
+    where: { slug: "sap-fico-foundations" },
+    update: {
+      title: "SAP FICO Foundations",
+      description:
+        "A complete learning path for SAP Financial Accounting and Controlling fundamentals, configuration, postings, reporting, and close activities.",
+      track: "SAP FICO",
+      level: "Beginner to Consultant",
+      status: "Published",
+      sequence: 1,
+    },
+    create: {
+      slug: "sap-fico-foundations",
+      title: "SAP FICO Foundations",
+      description:
+        "A complete learning path for SAP Financial Accounting and Controlling fundamentals, configuration, postings, reporting, and close activities.",
+      track: "SAP FICO",
+      level: "Beginner to Consultant",
+      status: "Published",
+      sequence: 1,
+    },
+  });
+
+  const moduleDefinitions = [
+    {
+      slug: "sap-gui-and-navigation",
+      title: "SAP GUI and Navigation",
+      description: "Understand clients, SIDs, logon entries, sessions, and how users reach SAP systems.",
+      sequence: 1,
+      estimatedMinutes: 45,
+      lessons: [
+        {
+          slug: "sap-gui-reference-introduction",
+          title: "SAP GUI Reference Mode",
+          summary: "Learn how SAP-style connection entries are structured.",
+          plainEnglish:
+            "SAP GUI is a front door into SAP systems. A connection entry tells the user which system, server, and route to use.",
+          businessNote:
+            "Correct logon selection keeps training, testing, and production activity separated, which protects real business data.",
+          interactiveRoute: "/sap-gui-reference",
+          sequence: 1,
+          durationMinutes: 15,
+        },
+      ],
+      tasks: [
+        {
+          slug: "select-s4hana-system",
+          title: "Select the S/4HANA system and click Log On",
+          mode: "Practice",
+          description: "Identify the S/4HANA training system from the connection list and launch the simulated logon.",
+          expectedOutcome: "The learner selects SID S4A and receives a successful logon confirmation.",
+          sequence: 1,
+        },
+      ],
+      questions: [
+        {
+          prompt: "What does SID identify in an SAP landscape?",
+          optionsJson: JSON.stringify(["The system", "The currency", "The company code", "The fiscal period"]),
+          correctAnswer: "The system",
+          explanation: "SID is the System ID, such as DEV, QAS, PRD, or S4A.",
+          sequence: 1,
+        },
+      ],
+    },
+    {
+      slug: "enterprise-structure",
+      title: "Enterprise Structure",
+      description: "Configure company codes, fiscal year variants, currencies, and charts of accounts.",
+      sequence: 2,
+      estimatedMinutes: 90,
+      lessons: [
+        {
+          slug: "company-code-basics",
+          title: "Company Code Basics",
+          summary: "Understand the legal entity used for financial statements.",
+          plainEnglish:
+            "A company code is the smallest organizational unit for external accounting. It owns ledgers, currencies, and financial statements.",
+          businessNote:
+            "Auditors and finance teams report statutory results by company code, so setup accuracy affects compliance.",
+          interactiveRoute: "/company-code",
+          sequence: 1,
+          durationMinutes: 20,
+        },
+        {
+          slug: "fiscal-year-variant-basics",
+          title: "Fiscal Year Variants",
+          summary: "Learn how posting periods and special periods are organized.",
+          plainEnglish:
+            "A fiscal year variant defines how the year is split into accounting periods and close adjustment periods.",
+          businessNote:
+            "Period control supports month-end and year-end closing discipline across finance teams.",
+          interactiveRoute: null,
+          sequence: 2,
+          durationMinutes: 20,
+        },
+      ],
+      tasks: [
+        {
+          slug: "create-training-company-code",
+          title: "Create a training company code",
+          mode: "Practice",
+          description: "Create a four-character company code with ISO country and currency values.",
+          expectedOutcome: "A valid company code exists and appears on the dashboard counts.",
+          sequence: 1,
+        },
+      ],
+      questions: [
+        {
+          prompt: "Why is a company code important in SAP FI?",
+          optionsJson: JSON.stringify([
+            "It defines a legal accounting entity",
+            "It stores user passwords",
+            "It replaces the chart of accounts",
+            "It controls screen colors",
+          ]),
+          correctAnswer: "It defines a legal accounting entity",
+          explanation: "Company codes are used for statutory reporting and external accounting.",
+          sequence: 1,
+        },
+      ],
+    },
+    {
+      slug: "general-ledger-accounting",
+      title: "General Ledger Accounting",
+      description: "Maintain G/L master data, reconciliation accounts, journal entries, and trial balances.",
+      sequence: 3,
+      estimatedMinutes: 120,
+      lessons: [
+        {
+          slug: "gl-account-master-data",
+          title: "G/L Account Master Data",
+          summary: "Learn account numbers, account types, and reconciliation indicators.",
+          plainEnglish:
+            "A G/L account is a bucket for financial values such as cash, receivables, revenue, and expenses.",
+          businessNote:
+            "Clean account design makes reporting reliable and reduces manual corrections during close.",
+          interactiveRoute: null,
+          sequence: 1,
+          durationMinutes: 30,
+        },
+      ],
+      tasks: [
+        {
+          slug: "review-training-chart-of-accounts",
+          title: "Review the training chart of accounts",
+          mode: "Challenge",
+          description: "Identify asset, liability, revenue, and expense accounts from the seeded chart.",
+          expectedOutcome: "The learner can classify core G/L accounts from memory.",
+          sequence: 1,
+        },
+      ],
+      questions: [
+        {
+          prompt: "Which account type is normally used for Training Revenue?",
+          optionsJson: JSON.stringify(["Revenue", "Asset", "Liability", "Vendor"]),
+          correctAnswer: "Revenue",
+          explanation: "Training Revenue records income earned from training services.",
+          sequence: 1,
+        },
+      ],
+    },
+    {
+      slug: "accounts-payable",
+      title: "Accounts Payable",
+      description: "Learn vendor master data, vendor invoices, outgoing payments, and payables reporting.",
+      sequence: 4,
+      estimatedMinutes: 90,
+      lessons: [
+        {
+          slug: "vendor-invoice-flow",
+          title: "Vendor Invoice Flow",
+          summary: "Understand how expenses and vendor liabilities are posted.",
+          plainEnglish:
+            "A vendor invoice records what the company owes. It usually debits an expense or asset and credits a payable.",
+          businessNote:
+            "Timely AP processing protects supplier relationships and cash-flow planning.",
+          interactiveRoute: null,
+          sequence: 1,
+          durationMinutes: 25,
+        },
+      ],
+      tasks: [
+        {
+          slug: "interpret-vendor-payable-entry",
+          title: "Interpret a vendor payable journal entry",
+          mode: "Practice",
+          description: "Review the seeded cloud hosting invoice and identify the debit and credit lines.",
+          expectedOutcome: "The learner explains why expense is debited and payables are credited.",
+          sequence: 1,
+        },
+      ],
+      questions: [],
+    },
+    {
+      slug: "accounts-receivable",
+      title: "Accounts Receivable",
+      description: "Learn customer master data, invoices, incoming payments, and receivables clearing.",
+      sequence: 5,
+      estimatedMinutes: 90,
+      lessons: [
+        {
+          slug: "customer-invoice-and-payment",
+          title: "Customer Invoice and Payment",
+          summary: "Understand how receivables are created and cleared.",
+          plainEnglish:
+            "A customer invoice creates an amount due from a customer. A payment clears that receivable against bank cash.",
+          businessNote:
+            "AR accuracy directly affects cash visibility, credit management, and customer statements.",
+          interactiveRoute: null,
+          sequence: 1,
+          durationMinutes: 25,
+        },
+      ],
+      tasks: [
+        {
+          slug: "trace-customer-payment",
+          title: "Trace a customer payment",
+          mode: "Practice",
+          description: "Follow the seeded customer invoice and payment entries through receivables and cash.",
+          expectedOutcome: "The learner can explain receivable creation and clearing.",
+          sequence: 1,
+        },
+      ],
+      questions: [],
+    },
+    {
+      slug: "period-end-close",
+      title: "Period-End Close and Reporting",
+      description: "Practice close concepts, trial balance review, financial statements, and reporting checks.",
+      sequence: 6,
+      estimatedMinutes: 120,
+      lessons: [
+        {
+          slug: "trial-balance-review",
+          title: "Trial Balance Review",
+          summary: "Learn how finance teams validate debit and credit balances.",
+          plainEnglish:
+            "A trial balance lists accounts and balances so accountants can review whether postings are complete and reasonable.",
+          businessNote:
+            "Close quality depends on early variance review, account ownership, and disciplined corrections.",
+          interactiveRoute: null,
+          sequence: 1,
+          durationMinutes: 30,
+        },
+      ],
+      tasks: [
+        {
+          slug: "month-end-readiness-check",
+          title: "Run a month-end readiness check",
+          mode: "Challenge",
+          description: "Review company codes, open postings, and key accounts before reporting.",
+          expectedOutcome: "The learner identifies close readiness risks from training data.",
+          sequence: 1,
+        },
+      ],
+      questions: [],
+    },
+  ];
+
+  for (const moduleDefinition of moduleDefinitions) {
+    const moduleRecord = await prisma.trainingModule.upsert({
+      where: { slug: moduleDefinition.slug },
+      update: {
+        title: moduleDefinition.title,
+        description: moduleDefinition.description,
+        sequence: moduleDefinition.sequence,
+        estimatedMinutes: moduleDefinition.estimatedMinutes,
+        courseId: course.id,
+      },
+      create: {
+        slug: moduleDefinition.slug,
+        title: moduleDefinition.title,
+        description: moduleDefinition.description,
+        sequence: moduleDefinition.sequence,
+        estimatedMinutes: moduleDefinition.estimatedMinutes,
+        courseId: course.id,
+      },
+    });
+
+    for (const lesson of moduleDefinition.lessons) {
+      await prisma.lesson.upsert({
+        where: { slug: lesson.slug },
+        update: { ...lesson, moduleId: moduleRecord.id },
+        create: { ...lesson, moduleId: moduleRecord.id },
+      });
+    }
+
+    for (const task of moduleDefinition.tasks) {
+      await prisma.practiceTask.upsert({
+        where: { slug: task.slug },
+        update: { ...task, moduleId: moduleRecord.id },
+        create: { ...task, moduleId: moduleRecord.id },
+      });
+    }
+
+    await prisma.quizQuestion.deleteMany({ where: { moduleId: moduleRecord.id } });
+    for (const question of moduleDefinition.questions) {
+      await prisma.quizQuestion.create({
+        data: { ...question, moduleId: moduleRecord.id },
+      });
+    }
+  }
+
+  const firstLessons = await prisma.lesson.findMany({
+    where: {
+      slug: {
+        in: ["sap-gui-reference-introduction", "company-code-basics"],
+      },
+    },
+  });
+
+  for (const lesson of firstLessons) {
+    await prisma.learnerProgress.upsert({
+      where: { progressKey: `demo:lesson:${lesson.slug}` },
+      update: {
+        learnerId: "demo",
+        status: "Completed",
+        score: 100,
+        completedAt: new Date("2026-03-01"),
+        lessonId: lesson.id,
+      },
+      create: {
+        learnerId: "demo",
+        progressKey: `demo:lesson:${lesson.slug}`,
+        status: "Completed",
+        score: 100,
+        completedAt: new Date("2026-03-01"),
+        lessonId: lesson.id,
+      },
+    });
+  }
+
+  const firstTask = await prisma.practiceTask.findUnique({
+    where: { slug: "select-s4hana-system" },
+  });
+
+  if (firstTask) {
+    await prisma.learnerProgress.upsert({
+      where: { progressKey: `demo:task:${firstTask.slug}` },
+      update: {
+        learnerId: "demo",
+        status: "Completed",
+        score: 100,
+        completedAt: new Date("2026-03-01"),
+        taskId: firstTask.id,
+      },
+      create: {
+        learnerId: "demo",
+        progressKey: `demo:task:${firstTask.slug}`,
+        status: "Completed",
+        score: 100,
+        completedAt: new Date("2026-03-01"),
+        taskId: firstTask.id,
+      },
+    });
+  }
+}
+
 async function main() {
   await seedCurrencies();
   const fiscalYearVariants = await seedFiscalYearVariants();
@@ -235,6 +594,7 @@ async function main() {
 
   await seedBusinessPartners(companies);
   await seedJournalEntries(companies, accounts);
+  await seedLearningPlatform();
 }
 
 main()

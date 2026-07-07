@@ -1,4 +1,13 @@
-import { ArrowUpRight, Building2, Landmark, Store, UsersRound } from "lucide-react";
+import {
+  ArrowUpRight,
+  BookOpenCheck,
+  Building2,
+  CheckCircle2,
+  GraduationCap,
+  Landmark,
+  Store,
+  UsersRound,
+} from "lucide-react";
 import Link from "next/link";
 
 import { AppShell } from "@/components/dashboard/app-shell";
@@ -19,18 +28,18 @@ export default async function DashboardPage() {
         <section className="rounded-lg border border-blue-100 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <Badge>Training client 800</Badge>
+              <Badge>SAP FICO learning workspace</Badge>
               <h2 className="mt-3 text-2xl font-semibold tracking-normal text-slate-950">
-                Finance configuration and transaction simulator
+                SAP FICO Training Platform
               </h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-                Practice enterprise accounting setup with guided master data, general ledger posting,
-                vendor/customer records, and finance reports in a clean training workspace.
+                Learn finance concepts, practice SAP-style configuration and posting tasks, then
+                challenge yourself with scored exercises across FI and CO scenarios.
               </p>
             </div>
             <Button asChild>
-              <Link href="/company-code">
-                Maintain company codes
+              <Link href="/fico-academy">
+                Open FICO Academy
                 <ArrowUpRight />
               </Link>
             </Button>
@@ -39,11 +48,32 @@ export default async function DashboardPage() {
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <MetricCard
+            title="FICO Courses"
+            value={counts.totalCourses}
+            detail="Structured learning paths"
+            icon={GraduationCap}
+          />
+          <MetricCard
+            title="Lessons"
+            value={counts.totalLessons}
+            detail="Concepts and guided labs"
+            icon={BookOpenCheck}
+          />
+          <MetricCard
+            title="Completed"
+            value={counts.completedProgress}
+            detail="Demo learner progress"
+            icon={CheckCircle2}
+          />
+          <MetricCard
             title="Total Companies"
             value={counts.totalCompanies}
             detail="Configured legal entities"
             icon={Building2}
           />
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <MetricCard
             title="Total Customers"
             value={counts.totalCustomers}

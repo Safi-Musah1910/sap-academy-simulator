@@ -1,6 +1,6 @@
-# SAP Academy Simulator
+# SAP FICO Training Platform
 
-A production-ready Next.js 15 training application for practicing ERP-style finance configuration and transaction workflows.
+A production-ready Next.js 15 learning platform for SAP FICO concepts, guided practice labs, SAP GUI reference training, assessments, and finance configuration simulation.
 
 ## Stack
 
@@ -12,6 +12,18 @@ A production-ready Next.js 15 training application for practicing ERP-style fina
 - SQLite for local development
 - Postgres-compatible production database for Vercel
 - ESLint 9
+
+## Product Direction
+
+The platform now combines structured learning and hands-on simulation:
+
+- FICO Academy learning paths
+- Interactive Learn, Practice, and Challenge modes
+- SAP GUI Reference Mode
+- Enterprise Structure configuration labs
+- General Ledger, AP, AR, and close/reporting curriculum
+- Seeded SAP-style master data and journal entries
+- Demo learner progress and scoring data
 
 ## Local Development
 
@@ -30,12 +42,14 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
 - Demo login gate for the training workspace
 - Responsive blue-and-white enterprise dashboard shell
-- Left sidebar navigation for core finance training areas
+- Left sidebar navigation for FICO Academy, SAP GUI Reference, and finance training labs
 - Top navigation with search, alerts, settings, and user affordances
 - Prisma models for Company, FiscalYearVariant, ChartOfAccounts, GLAccount, Customer, Vendor, JournalEntry, and JournalLine
+- Prisma learning models for Course, TrainingModule, Lesson, PracticeTask, QuizQuestion, and LearnerProgress
 - Currency master data seeded for production and local development
-- Realistic seeded demo master data and journal entries
+- Realistic seeded demo master data, journal entries, curriculum, lessons, tasks, quizzes, and progress
 - Company Code create, read, update, and delete workflow powered by Server Actions
+- FICO Academy page with module cards, lesson summaries, practice counts, quiz counts, and progress
 - Server Components for dashboard and data-backed pages
 - Database fallbacks so pages render empty states instead of crashing when schema/data is unavailable
 

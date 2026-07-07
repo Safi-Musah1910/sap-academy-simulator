@@ -6,6 +6,7 @@ import {
   CalendarDays,
   CircleDollarSign,
   FileSpreadsheet,
+  GraduationCap,
   Landmark,
   LayoutDashboard,
   MonitorCog,
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
 
 const items = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard, active: true },
+  { label: "FICO Academy", href: "/fico-academy", icon: GraduationCap },
   { label: "Company Code", href: "/company-code", icon: Building2 },
   { label: "Fiscal Year Variants", href: "#", icon: CalendarDays },
   { label: "Chart of Accounts", href: "#", icon: FileSpreadsheet },
@@ -24,7 +26,7 @@ const items = [
   { label: "Accounts Payable", href: "#", icon: ReceiptText },
   { label: "Accounts Receivable", href: "#", icon: CircleDollarSign },
   { label: "Reports", href: "#", icon: BarChart3 },
-  { label: "Training", href: "#", icon: BookOpen },
+  { label: "Interview Prep", href: "#", icon: BookOpen },
   { label: "SAP GUI Reference", href: "/sap-gui-reference", icon: MonitorCog },
 ];
 
@@ -36,8 +38,8 @@ export function Sidebar({ activePath = "/" }: { activePath?: string }) {
           <ScrollText className="size-5" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-slate-950">SAP Academy</p>
-          <p className="text-xs text-slate-500">Simulator</p>
+          <p className="text-sm font-semibold text-slate-950">SAP FICO</p>
+          <p className="text-xs text-slate-500">Training Platform</p>
         </div>
       </div>
       <nav className="space-y-1 p-3">

@@ -110,3 +110,90 @@ model JournalLine {
   glAccount      GLAccount    @relation(fields: [glAccountId], references: [id])
   glAccountId    String
 }
+
+model Course {
+  id          String            @id @default(cuid())
+  slug        String            @unique
+  title       String
+  description String
+  track       String
+  level       String
+  status      String            @default("Published")
+  sequence    Int
+  modules     TrainingModule[]
+  progress    LearnerProgress[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model TrainingModule {
+  id               String            @id @default(cuid())
+  slug             String            @unique
+  title            String
+  description      String
+  sequence         Int
+  estimatedMinutes Int
+  course           Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId         String
+  lessons          Lesson[]
+  practiceTasks    PracticeTask[]
+  quizQuestions    QuizQuestion[]
+  progress         LearnerProgress[]
+}
+
+model Lesson {
+  id               String            @id @default(cuid())
+  slug             String            @unique
+  title            String
+  summary          String
+  plainEnglish     String
+  businessNote     String
+  interactiveRoute String?
+  sequence         Int
+  durationMinutes  Int
+  module           TrainingModule    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  moduleId         String
+  progress         LearnerProgress[]
+}
+
+model PracticeTask {
+  id              String            @id @default(cuid())
+  slug            String            @unique
+  title           String
+  mode            String
+  description     String
+  expectedOutcome String
+  sequence        Int
+  module          TrainingModule    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  moduleId        String
+  progress        LearnerProgress[]
+}
+
+model QuizQuestion {
+  id            String         @id @default(cuid())
+  prompt        String
+  optionsJson   String
+  correctAnswer String
+  explanation   String
+  sequence      Int
+  module        TrainingModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  moduleId      String
+}
+
+model LearnerProgress {
+  id          String          @id @default(cuid())
+  learnerId   String
+  progressKey String          @unique
+  status      String          @default("Not Started")
+  score       Int             @default(0)
+  completedAt DateTime?
+  updatedAt   DateTime        @updatedAt
+  course      Course?         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId    String?
+  module      TrainingModule? @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  moduleId    String?
+  lesson      Lesson?         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId    String?
+  task        PracticeTask?   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId      String?
+}

@@ -3,12 +3,29 @@ import { prisma } from "@/lib/prisma";
 
 export async function getDashboardSummary() {
   try {
-    const [totalCompanies, totalCustomers, totalVendors, totalGLAccounts, recentJournalEntries] =
+    const [
+      totalCompanies,
+      totalCustomers,
+      totalVendors,
+      totalGLAccounts,
+      totalCourses,
+      totalLessons,
+      completedProgress,
+      recentJournalEntries,
+    ] =
       await Promise.all([
         prisma.company.count(),
         prisma.customer.count(),
         prisma.vendor.count(),
         prisma.gLAccount.count(),
+        prisma.course.count(),
+        prisma.lesson.count(),
+        prisma.learnerProgress.count({
+          where: {
+            learnerId: "demo",
+            status: "Completed",
+          },
+        }),
         prisma.journalEntry.findMany({
           take: 10,
           include: {
@@ -39,6 +56,9 @@ export async function getDashboardSummary() {
         totalCustomers,
         totalVendors,
         totalGLAccounts,
+        totalCourses,
+        totalLessons,
+        completedProgress,
       },
       recentJournalEntries,
     };
@@ -51,6 +71,9 @@ export async function getDashboardSummary() {
         totalCustomers: 0,
         totalVendors: 0,
         totalGLAccounts: 0,
+        totalCourses: 0,
+        totalLessons: 0,
+        completedProgress: 0,
       },
       recentJournalEntries: [],
     };

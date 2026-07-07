@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SAP Academy Simulator",
-  description: "A Next.js finance training simulator for ERP configuration practice.",
+  title: "SAP FICO Training Platform",
+  description: "A Next.js SAP FICO learning platform with interactive lessons and finance labs.",
 };
 
 export default function RootLayout({

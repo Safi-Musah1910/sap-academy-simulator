@@ -27,15 +27,15 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             <ScrollText className="size-5" />
           </div>
           <div>
-            <p className="text-base font-semibold text-slate-950">SAP Academy Simulator</p>
-            <p className="text-sm text-slate-500">Finance training workspace</p>
+            <p className="text-base font-semibold text-slate-950">SAP FICO Training Platform</p>
+            <p className="text-sm text-slate-500">Finance and controlling academy</p>
           </div>
         </div>
 
         <Card>
           <CardHeader>
             <CardTitle>Sign in</CardTitle>
-            <CardDescription>Use the training administrator account.</CardDescription>
+            <CardDescription>Use the demo learner account.</CardDescription>
           </CardHeader>
           <CardContent>
             <form action={login} className="space-y-4">
