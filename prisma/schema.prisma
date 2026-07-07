@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                String         @id @default(cuid())
+  code              String         @unique
+  name              String
+  country           String
+  currency          String
+  city              String
+  status            String         @default("Active")
+  fiscalYearVariant FiscalYearVariant? @relation(fields: [fiscalYearVariantId], references: [id])
+  fiscalYearVariantId String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  journalEntries    JournalEntry[]
+  customers         Customer[]
+  vendors           Vendor[]
+}
+
+model FiscalYearVariant {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  name        String
+  periods     Int
+  specialPeriods Int    @default(4)
+  yearDependent Boolean @default(false)
+  companies   Company[]
+}
+
+model ChartOfAccounts {
+  id          String      @id @default(cuid())
+  code        String      @unique
+  name        String
+  language    String      @default("EN")
+  glAccounts  GLAccount[]
+}
+
+model GLAccount {
+  id                String          @id @default(cuid())
+  accountNumber     String
+  name              String
+  accountType       String
+  isReconciliation  Boolean         @default(false)
+  chartOfAccounts   ChartOfAccounts @relation(fields: [chartOfAccountsId], references: [id])
+  chartOfAccountsId String
+  journalLines      JournalLine[]
+
+  @@unique([accountNumber, chartOfAccountsId])
+}
+
+model Customer {
+  id        String  @id @default(cuid())
+  number    String  @unique
+  name      String
+  country   String
+  city      String
+  email     String?
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+}
+
+model Vendor {
+  id        String  @id @default(cuid())
+  number    String  @unique
+  name      String
+  country   String
+  city      String
+  email     String?
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+}
+
+model JournalEntry {
+  id          String        @id @default(cuid())
+  documentNo  String        @unique
+  postingDate DateTime
+  documentDate DateTime
+  reference   String?
+  headerText  String
+  company     Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String
+  lines       JournalLine[]
+  createdAt   DateTime      @default(now())
+}
+
+model JournalLine {
+  id             String       @id @default(cuid())
+  lineNo         Int
+  debit          Float        @default(0)
+  credit         Float        @default(0)
+  text           String
+  journalEntry   JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  journalEntryId String
+  glAccount      GLAccount    @relation(fields: [glAccountId], references: [id])
+  glAccountId    String
+}
