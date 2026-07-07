@@ -8,6 +8,7 @@ import {
   FileSpreadsheet,
   Landmark,
   LayoutDashboard,
+  MonitorCog,
   ReceiptText,
   ScrollText,
 } from "lucide-react";
@@ -24,6 +25,7 @@ const items = [
   { label: "Accounts Receivable", href: "#", icon: CircleDollarSign },
   { label: "Reports", href: "#", icon: BarChart3 },
   { label: "Training", href: "#", icon: BookOpen },
+  { label: "SAP GUI Reference", href: "/sap-gui-reference", icon: MonitorCog },
 ];
 
 export function Sidebar({ activePath = "/" }: { activePath?: string }) {
